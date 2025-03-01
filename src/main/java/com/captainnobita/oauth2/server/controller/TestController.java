@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/springframework/RestController.java to edit this template
  */
@@ -9,6 +9,7 @@ import com.captainnobita.oauth2.server.dto.TestMsgResponse;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,11 +26,11 @@ public class TestController {
     private long sleepTime;
     
     @PostMapping("/currentDate")
-    public TestMsgResponse currentDateTime(@RequestBody TestMsgRequest msgRequest) throws InterruptedException {
+    public ResponseEntity<?> currentDateTime(@RequestBody TestMsgRequest msgRequest) throws InterruptedException {
         Thread.sleep(Duration.ofSeconds(sleepTime));
         TestMsgResponse msgResponse = new TestMsgResponse();
         msgResponse.setClientDatetime(msgRequest.getClientDatetime());
         msgResponse.setServerDatetime(LocalDateTime.now());
-        return msgResponse;
+        return ResponseEntity.badRequest().build();
     }
 }

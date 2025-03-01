@@ -6,7 +6,6 @@ package com.captainnobita.oauth2.server.controller;
 
 import com.captainnobita.oauth2.server.security.services.JwtUtils;
 import com.captainnobita.oauth2.server.security.services.OAuth2Properties;
-import java.util.Base64;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @RestController
-@RequestMapping("/oauth2/token")
+@RequestMapping("/oauth2")
 public class TokenController {
     
     @Autowired
@@ -25,20 +24,8 @@ public class TokenController {
     private JwtUtils jwtUtils;
     
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    
-    @PostMapping("/CLIENT_SECRET_BASIC")
-    public Map<String, String> generateTokenUseHeader(@RequestHeader("Authorization") String authorizationHeader) throws InterruptedException {
-        // Decode Basic Auth Header
-        String[] credentials = new String(Base64.getDecoder().decode(authorizationHeader.replace("Basic ", "")))
-                .split(":");
 
-        String client_id = credentials[0];
-        String client_secret = credentials[1];
-        
-        return generateTokenUseParam(client_id, client_secret);
-    }
-
-    @PostMapping("/CLIENT_SECRET_POST")
+    @PostMapping("/token")
     public Map<String, String> generateTokenUseParam(@RequestParam String client_id, @RequestParam String client_secret) throws InterruptedException {
         // Tìm client theo client_id
         Optional<OAuth2Properties.Client> clientOptional = oauth2ClientProperties.getClients().stream()
