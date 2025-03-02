@@ -31,6 +31,6 @@ public class TestController {
         TestMsgResponse msgResponse = new TestMsgResponse();
         msgResponse.setClientDatetime(msgRequest.getClientDatetime());
         msgResponse.setServerDatetime(LocalDateTime.now());
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.ok(msgResponse);
     }
 }
